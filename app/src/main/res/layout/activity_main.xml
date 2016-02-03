@@ -12,7 +12,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="Search devices"
         android:id="@+id/button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
@@ -31,15 +31,32 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:id="@+id/listView"
-        android:layout_marginBottom="182dp"
-        android:layout_above="@+id/textView"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/seekBar" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"
+        android:text="On"
+        android:id="@+id/ledOn"
         android:layout_above="@+id/textView"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Off"
+        android:id="@+id/ledOff"
+        android:layout_above="@+id/textView"
+        android:layout_alignParentEnd="true" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:layout_above="@+id/ledOn"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="37dp"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

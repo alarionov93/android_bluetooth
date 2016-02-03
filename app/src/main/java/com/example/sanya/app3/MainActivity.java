@@ -12,7 +12,6 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,7 +30,8 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     ArrayAdapter<String> listAdapter;
-    Button send;
+    Button ledOn;
+    Button ledOff;
     Button connectNew;
     ListView listView;
     TextView textView;
@@ -94,14 +94,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             }
         });
-        send = (Button) findViewById(R.id.button2);
-        send.setOnClickListener(new View.OnClickListener() {
+        ledOn = (Button) findViewById(R.id.ledOn);
+        ledOn.setEnabled(false);
+        ledOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                send();
+                ledOn();
             }
         });
-
+        ledOff = (Button) findViewById(R.id.ledOff);
+        ledOff.setEnabled(false);
+        ledOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ledOff();
+            }
+        });
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -133,10 +141,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private void send() {
+    private void ledOn() {
         ConnectedThread connectedThread = new ConnectedThread(MainActivity.socket);
-        Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
-        String s = "Successfully connected";
+//        Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+        String s = "1";
+        connectedThread.write(s.getBytes());
+    }
+
+    private void ledOff() {
+        ConnectedThread connectedThread = new ConnectedThread(MainActivity.socket);
+//        Toast.makeText(getApplicationContext(), "Sended", Toast.LENGTH_SHORT).show();
+        String s = "0";
         connectedThread.write(s.getBytes());
     }
 
@@ -159,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 String action = intent.getAction();
 
                 if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                    listAdapter.clear();
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     devices.add(device);
                     String s = "";
@@ -234,6 +250,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             BluetoothDevice selectedDevice = devices.get(position);
             ConnectThread connect = new ConnectThread(selectedDevice);
             connect.start();
+            ledOn.setEnabled(true);
+            ledOff.setEnabled(true);
         } else {
             Toast.makeText(getApplicationContext(), "This device is not paired", Toast.LENGTH_SHORT).show();
         }
