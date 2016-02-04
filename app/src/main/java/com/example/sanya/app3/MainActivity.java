@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Button ledOn;
     Button ledOff;
     Button connectNew;
+    SeekBar seekBar;
     ListView listView;
     TextView textView;
     BluetoothAdapter btAdapter;
@@ -111,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(seekBarListener);
+
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -119,6 +124,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //                        .setAction("Action", null).show();
 //            }
 //        });
+    }
+
+    private SeekBar.OnSeekBarChangeListener seekBarListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            progress = seekBar.getProgress();
+            sendValueViaBT(progress);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
+
+    private void sendValueViaBT(int value) {
+        ConnectedThread connectedThread = new ConnectedThread(MainActivity.socket);
+        Toast.makeText(getApplicationContext(), "Sent", Toast.LENGTH_SHORT).show();
+        String s = String.valueOf(value);
+        connectedThread.write(s.getBytes());
     }
 
     private void startDiscovery() {

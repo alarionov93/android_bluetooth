@@ -58,5 +58,7 @@
         android:layout_above="@+id/ledOn"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="37dp"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:max="255"
+        android:progress="0"/>
 </RelativeLayout>
